@@ -15,10 +15,11 @@
             var url = 'https://picsum.photos/v2/list';
             http.open('get', url);
             http.onreadystatechange = function(e) {
-                if(e.target.readyState === XMLHttpRequest.DONE) {
-                    var status = e.target.status;
-                    if(status === 200) {                        
-                        setData(http.response);
+                if(e.target.readyState === XMLHttpRequest.DONE) { //상태
+                    var status = e.target.status; //상황
+                    if(status === 200) {         
+                        var list = JSON.parse(http.response);    
+                        setData(list);
                     } else { //통신 실패
                         alert('통신 실패!!!');
                     }
@@ -27,8 +28,7 @@
             http.send();
         }
 
-        function setData(strData) {
-            var list = JSON.parse(strData);            
+        function setData(list) {
             var containerElem = document.querySelector('#container');
             var imgUrl = 'https://picsum.photos/id/';
             list.forEach(function(item) {
@@ -39,7 +39,7 @@
                 var imgElem = document.createElement('img');
                 imgElem.src = imgUrl + id + '/' + width + '/' + height;
 
-                containerElem.append(imgElem);
+                containerElem.appendChild(imgElem);
             });
         }
         
